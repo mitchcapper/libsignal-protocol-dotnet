@@ -47,7 +47,7 @@ namespace libsignal_test
                 this.originalMessage = originalMessage;
             }
 
-            public Task handlePlaintext(byte[] plaintext, SessionRecord sessionRecord)
+            public Task handlePlaintext(byte[] plaintext, uint sessionVersion)
             {
                 Assert.AreEqual(originalMessage, Encoding.UTF8.GetString(plaintext));
                 Assert.IsFalse(bobStore.ContainsSession(ALICE_ADDRESS));

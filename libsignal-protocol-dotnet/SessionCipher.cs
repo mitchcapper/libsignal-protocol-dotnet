@@ -150,7 +150,7 @@ namespace libsignal
 
                 identityKeyStore.SaveIdentity(remoteAddress, sessionRecord.getSessionState().getRemoteIdentityKey());
 
-                callback.handlePlaintext(plaintext, sessionRecord).Wait();
+                callback.handlePlaintext(plaintext, sessionRecord.getSessionState().getSessionVersion()).Wait();
 
                 sessionStore.StoreSession(remoteAddress, sessionRecord);
 
@@ -212,7 +212,7 @@ namespace libsignal
                     throw new UntrustedIdentityException(remoteAddress.Name, sessionRecord.getSessionState().getRemoteIdentityKey());
                 }
 
-                callback.handlePlaintext(plaintext, sessionRecord).Wait();//no async in a lock
+                callback.handlePlaintext(plaintext, sessionRecord.getSessionState().getSessionVersion()).Wait();//no async in a lock
 
                 sessionStore.StoreSession(remoteAddress, sessionRecord);
 
@@ -396,7 +396,7 @@ namespace libsignal
         private class NullDecryptionCallback : DecryptionCallback
         {
 
-            public Task handlePlaintext(byte[] plaintext, SessionRecord sessionRecord) => Task.CompletedTask;
+            public Task handlePlaintext(byte[] plaintext, uint sessionVersion) => Task.CompletedTask;
         }
     }
 }

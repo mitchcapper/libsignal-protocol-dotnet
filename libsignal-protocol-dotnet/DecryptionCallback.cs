@@ -20,6 +20,6 @@ namespace libsignal
 {
     public interface DecryptionCallback
     {
-        Task handlePlaintext(byte[] plaintext, SessionRecord sessionRecord);
+        Task handlePlaintext(byte[] plaintext, uint sessionVersion);
     }
 }
