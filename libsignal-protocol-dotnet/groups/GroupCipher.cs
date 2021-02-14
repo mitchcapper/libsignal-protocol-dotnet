@@ -1,4 +1,4 @@
-/** 
+﻿/** 
  * Copyright (C) 2016 smndtrl, langboost
  * 
  * This program is free software: you can redistribute it and/or modify
@@ -19,7 +19,9 @@ using System;
 using libsignal.groups.ratchet;
 using libsignal.groups.state;
 using libsignal.protocol;
+using libsignal.state;
 using libsignal.util;
+using System.Threading.Tasks;
 
 namespace libsignal.groups
 {
@@ -127,7 +129,7 @@ namespace libsignal.groups
 
                     byte[] plaintext = getPlainText(senderKey.getIv(), senderKey.getCipherKey(), senderKeyMessage.getCipherText());
 
-                    callback.handlePlaintext(plaintext);
+                    callback.handlePlaintext(plaintext, null).Wait();
 
                     senderKeyStore.storeSenderKey(senderKeyId, record);
 
@@ -210,7 +212,8 @@ namespace libsignal.groups
 
         private class NullDecryptionCallback : DecryptionCallback
         {
-            public void handlePlaintext(byte[] plaintext) { }
-        }
+			public Task handlePlaintext(byte[] plaintext, SessionRecord sessionRecord) => Task.CompletedTask;
+
+		}
     }
 }
